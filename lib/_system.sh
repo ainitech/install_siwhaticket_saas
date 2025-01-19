@@ -36,7 +36,7 @@ system_git_clone() {
   sleep 2
 
   sudo su - deploy <<EOF
-  git clone ${link_git} /home/deploy/${instancia_add}/
+  git clone ${link_git} /NVME/home//deploy/${instancia_add}/
 EOF
 
   sleep 2
@@ -94,7 +94,7 @@ EOF
 sleep 2
 
 sudo su - deploy <<EOF
- rm -rf /home/deploy/${empresa_delete}
+ rm -rf /NVME/home//deploy/${empresa_delete}
  pm2 delete ${empresa_delete}-frontend ${empresa_delete}-backend
  pm2 save
 EOF
@@ -185,9 +185,9 @@ EOF
 sleep 2
 
   sudo su - deploy <<EOF
-  cd && cd /home/deploy/${empresa_dominio}/frontend
+  cd && cd /NVME/home//deploy/${empresa_dominio}/frontend
   sed -i "1c\REACT_APP_BACKEND_URL=https://${alter_backend_url}" .env
-  cd && cd /home/deploy/${empresa_dominio}/backend
+  cd && cd /NVME/home//deploy/${empresa_dominio}/backend
   sed -i "2c\BACKEND_URL=https://${alter_backend_url}" .env
   sed -i "3c\FRONTEND_URL=https://${alter_frontend_url}" .env 
 EOF
