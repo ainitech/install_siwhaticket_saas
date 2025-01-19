@@ -89,6 +89,8 @@ STRIPE_CANCEL_URL=${frontend_url}/financeiro
 
 MP_NOTIFICATION_URL=${backend_url}/subscription/mercadopagowebhook
 
+DAYS_TO_KEEP=1
+
 PM2_COMMAND='pm2 restart ${instancia_add}-backend'
 
 [-]EOF
