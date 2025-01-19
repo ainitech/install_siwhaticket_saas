@@ -15,7 +15,7 @@ frontend_node_dependencies() {
   sleep 2
 
   sudo su - deploy <<EOF
-  cd /home/deploy/${instancia_add}/frontend
+  cd /NVME/home/deploy/${instancia_add}/frontend
   npm install --legacy-peer-deps
 EOF
 
@@ -35,7 +35,7 @@ frontend_node_build() {
   sleep 2
 
   sudo su - deploy <<EOF
-  cd /home/deploy/${instancia_add}/frontend
+  cd /NVME/home/deploy/${instancia_add}/frontend
   npm run build
 EOF
 
@@ -55,12 +55,12 @@ frontend_update() {
   sleep 2
 
   sudo su <<EOF
-  cd /home/deploy/${empresa_atualizar}
+  cd /NVME/home/deploy/${empresa_atualizar}
   pm2 stop ${empresa_atualizar}-frontend
   git reset --hard
   git config --global safe.directory '*'
   git pull --force
-  cd /home/deploy/${empresa_atualizar}/frontend
+  cd /NVME/home/deploy/${empresa_atualizar}/frontend
   npm install --legacy-peer-deps
   rm -rf build
   npm run build
@@ -90,7 +90,7 @@ frontend_set_env() {
   backend_url=https://$backend_url
 
 sudo su - deploy << EOF
-  cat <<[-]EOF > /home/deploy/${instancia_add}/frontend/.env
+  cat <<[-]EOF > /NVME/home/deploy/${instancia_add}/frontend/.env
 REACT_APP_BACKEND_URL=${backend_url}
 REACT_APP_HOURS_CLOSE_TICKETS_AUTO = 24
 REACT_APP_NAME_SYSTEM = "${app_name}"
@@ -117,7 +117,7 @@ frontend_start_pm2() {
   sleep 2
 
   sudo su - deploy <<EOF
-  cd /home/deploy/${instancia_add}/frontend
+  cd /NVME/home/deploy/${instancia_add}/frontend
   sudo pm2 start server.js --name ${instancia_add}-frontend
   sudo pm2 reload ${instancia_add}-frontend --cron-restart="0 6 * * *"
   sudo pm2 save --force
@@ -127,7 +127,7 @@ EOF
   
   sudo su - root <<EOF
    pm2 startup
-  sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u deploy --hp /home/deploy
+  sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u deploy --hp /NVME/home/deploy
 EOF
   sleep 2
 }
