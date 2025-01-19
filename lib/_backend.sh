@@ -54,7 +54,7 @@ backend_set_env() {
   frontend_url=https://$frontend_url
 
 sudo su - deploy << EOF
-  cat <<[-]EOF > /home/deploy/${instancia_add}/backend/.env
+  cat <<[-]EOF > /NVME/home/deploy/${instancia_add}/backend/.env
 NODE_ENV=
 BACKEND_URL=${backend_url}
 FRONTEND_URL=${frontend_url}
@@ -110,7 +110,7 @@ backend_node_dependencies() {
   sleep 2
 
   sudo su - deploy <<EOF
-  cd /home/deploy/${instancia_add}/backend
+  cd /NVME/home/deploy/${instancia_add}/backend
   npm install
 EOF
 
@@ -130,7 +130,7 @@ backend_node_build() {
   sleep 2
 
   sudo su - deploy <<EOF
-  cd /home/deploy/${instancia_add}/backend
+  cd /NVME/home/deploy/${instancia_add}/backend
   npm run build
 EOF
 
@@ -150,12 +150,12 @@ backend_update() {
   sleep 2
 
   sudo su <<EOF
-  cd /home/deploy/${empresa_atualizar}
+  cd /NVME/home/deploy/${empresa_atualizar}
   pm2 stop ${empresa_atualizar}-backend
   #git reset --hard
   #git config --global safe.directory '*'
   #git pull -f
-  cd /home/deploy/${empresa_atualizar}/backend
+  cd /NVME/home/deploy/${empresa_atualizar}/backend
   npm install
   npm install @types/fs-extra
   rm -rf dist 
@@ -181,7 +181,7 @@ backend_db_migrate() {
   sleep 2
 
   sudo su - deploy <<EOF
-  cd /home/deploy/${instancia_add}/backend
+  cd /NVME/home/deploy/${instancia_add}/backend
   npx sequelize db:migrate
 EOF
 
@@ -201,7 +201,7 @@ backend_db_seed() {
   sleep 2
 
   sudo su - deploy <<EOF
-  cd /home/deploy/${instancia_add}/backend
+  cd /NVME/home/deploy/${instancia_add}/backend
   npx sequelize db:seed:all
 EOF
 
@@ -222,7 +222,7 @@ backend_start_pm2() {
   sleep 2
 
   sudo su - deploy <<EOF
-  cd /home/deploy/${instancia_add}/backend
+  cd /NVME/home/deploy/${instancia_add}/backend
   sudo pm2 start dist/server.js --name ${instancia_add}-backend
   sudo pm2 reload ${instancia_add}-backend --max-memory-restart 300M --cron-restart="0 6 * * *"
   sudo pm2 save --force
